@@ -1,0 +1,17 @@
+#btn{
+    animation:border-anim 2s infinite 0s linear;
+}
+@keyframes border-anim{
+    from{
+        border-color:white;
+    }
+    to{
+        border-color:brown;
+    }
+}
+
+#btn:hover{
+    border-color:white;
+    /* animation-play-state: paused; */
+    animation:none;
+}
