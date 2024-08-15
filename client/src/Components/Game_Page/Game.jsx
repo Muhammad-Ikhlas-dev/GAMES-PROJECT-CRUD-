@@ -5,13 +5,14 @@ const game=(props)=>{
     return(
         <div className='min-h-72 w-48 px-4 pb-4 pt-2 bg-white text-green-500 text-center 
         cursor-pointer group flex flex-col items-center overflow-hidden'>
-                                        {/* DELETE */}
-          
+            <div className='flex justify-between w-full'>
+                                            {/* DELETE */}
             <span className="ml-auto border-2 border-green-500 bg-green-500
             transition-transform duration-500 linear scale-90 hover:scale-125"
             onClick={props.clicked}>
                 ❌
-            </span>
+            </span>  
+            </div>
             
                                   {/* {BG IMAGE OF CARD} */}
             <img className="z-0 object-cover object-center h-[90%] mt-4

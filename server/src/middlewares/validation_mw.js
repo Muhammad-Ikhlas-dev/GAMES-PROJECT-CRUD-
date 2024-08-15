@@ -6,7 +6,6 @@ function validateSchema(bodySchema, querySchema, paramsSchema) {
                bodySchema.parse(req.body)
             }
             if (querySchema) {
-                console.log("chala")
                 querySchema.parse(req.query)
             }
             if (paramsSchema) {
@@ -15,6 +14,7 @@ function validateSchema(bodySchema, querySchema, paramsSchema) {
             next();
         }
         catch (error) {
+            console.log("schema validation error")
             return res.status(400).json({
                 message:"some error in validation",
                 success:false,

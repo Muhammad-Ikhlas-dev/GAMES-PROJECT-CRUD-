@@ -6,6 +6,7 @@ import AddGame from './AddGame.jsx';
 import Games from './Games.jsx';
 import LogoutBtn from '../LogoutBtn.jsx';
 import toast, { Toaster } from 'react-hot-toast';
+import UpdateGame from './UpdateGame.jsx';
 
 const gamePage = () => {
   const [games, setGames] = useState([])
@@ -94,11 +95,14 @@ const gamePage = () => {
         <LogoutBtn />
       </div>
 
+      <div className="flex justify-center gap-32 w-full">
       {/* AddGame */}
       <AddGame onGameAdded={triggerRefresh} />
-
+      {/* {Update Game} */}
+      <UpdateGame onGameUpdated={triggerRefresh} />
+      </div>
       {/* Games Display */}
-      <Games games={games} clicked={deleteGame} />
+      <Games games={games} clicked={deleteGame}/>
       <Toaster />
     </div>
   )

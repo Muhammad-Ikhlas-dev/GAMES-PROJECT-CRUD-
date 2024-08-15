@@ -5,7 +5,8 @@ const gamesDisplayer=(props)=>{
 
     let allGames=props.games.map((game,index)=>( 
         <Game title={game.title} key={index} clicked={(event)=>{props.clicked(game.title,event)}} 
-        description={game.description} genre={game.genre}/>
+        description={game.description} genre={game.genre}
+        updateClicked={()=>{props.updateClicked(game.title)}}/>
     ))
     
     return(

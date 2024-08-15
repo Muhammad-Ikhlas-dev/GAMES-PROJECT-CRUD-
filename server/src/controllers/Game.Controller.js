@@ -75,12 +75,16 @@ async function game_del_handler(req, res) {
         });
     }
 }
+
 async function game_update_handler(req,res){
     try{
 const {query,body}=req;
-const {title}=query;
+const {title_to_update}=query;
 const {updated_title,updated_description,updated_genre}=body;
-const game=await Game.findOne({title})
+const game=await Game.findOne({title:title_to_update})
+//as key is what the field or column name so it first matches key with columns of db and
+//then matches values of column to the value we have, given when there is a match 
+//a whole record is returned
 if(!game){
     return res.status(400).json({
         messasge:"The game with this title is not found!!!",
@@ -101,6 +105,7 @@ return res.status(200).json({
 });
     }
     catch(error){
+        console.log("controller error: ",error.message)
          res.status(500).json({
             error,
             success:false
