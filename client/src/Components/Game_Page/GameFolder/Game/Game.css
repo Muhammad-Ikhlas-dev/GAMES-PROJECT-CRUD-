@@ -1,0 +1,17 @@
+.Placeholder{
+  white-space: nowrap;
+  animation:headlineNews 10s linear 0s infinite;
+}
+
+.exceedingInputContainer{
+  cursor:text; /*I*/
+}
+
+@keyframes headlineNews{
+    0%{
+      transform:translateX(-10%);
+    }
+    100%{
+      transform:translateX(-100%);
+    }
+}

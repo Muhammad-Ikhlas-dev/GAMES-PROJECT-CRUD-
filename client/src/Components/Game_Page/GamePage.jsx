@@ -5,8 +5,6 @@ import Header from '../Header.jsx';
 import AddGame from './AddGame.jsx';
 import Games from './Games.jsx';
 import LogoutBtn from '../LogoutBtn.jsx';
-import toast, { Toaster } from 'react-hot-toast';
-import UpdateGame from './UpdateGame.jsx';
 
 const gamePage = () => {
   const [games, setGames] = useState([])
@@ -33,56 +31,6 @@ const gamePage = () => {
     //change and the useEffect will execute instead of whole page
   }
                                     //Delete function
-  async function deleteGame(title, event) {
-    event.preventDefault();
-    try {
-      let response = await axios.delete('http://localhost:8000/game/' + title)
-      toast.success(response.data.message, {
-        position: 'top-right',
-        style: {
-          height: "60px",
-          border: '1px solid green'
-        },
-      })
-      triggerRefresh(); //change state calluseEffect oR we can say 
-      //run useEffect indirectly 
-    }
-    catch (error) {
-      console.log(error)
-      if (error?.response?.data?.issue) { //error response came from zod
-        console.log(error.response.data.issue)
-        toast.error(error.response.data.issue[0].message + ' at ' + error.response.data.issue[0].path)
-          , {
-          position: 'top-right',
-          style: {
-            height: "60px",
-            border: '1px solid green'
-          },
-        }
-      }
-      else if (error?.response?.data?.message) { //error response from manual validations
-        // console.log(error)
-        toast.error(error.response.data.message)
-          , {
-          position: 'top-right',
-          style: {
-            height: "60px",
-            border: '1px solid green'
-          },
-        }
-      }
-      else { //axios related error
-        toast.error(error.message)
-          , {
-          position: 'top-right',
-          style: {
-            height: "60px",
-            border: '1px solid green'
-          },
-        }
-      }
-    }
-  }
 
   return (
     <div className='min-h-[100%] bg-[#40670C]
@@ -95,15 +43,22 @@ const gamePage = () => {
         <LogoutBtn />
       </div>
 
-      <div className="flex justify-center gap-32 w-full">
       {/* AddGame */}
-      <AddGame onGameAdded={triggerRefresh} />
+      <AddGame triggerRefresh={triggerRefresh} />
+
+      {/* <div className="bg-black w-96 h-52 flex justify-center items-center flex-col
+      gap-12">
+        <p>Do you want to delete the game?</p>
+             <div className='flex gap-12'>
+                 <button className="bg-green-500 px-4 hover:bg-green-700">Yes</button>
+                 <button className='bg-red-500 px-4 hover:bg-red-700'>No</button>
+             </div>
+           </div> */}
+           
       {/* {Update Game} */}
-      <UpdateGame onGameUpdated={triggerRefresh} />
-      </div>
+      {/* <UpdateGame onGameUpdated={triggerRefresh} /> */}
       {/* Games Display */}
-      <Games games={games} clicked={deleteGame}/>
-      <Toaster />
+      <Games games={games} triggerRefresh={triggerRefresh}/>
     </div>
   )
 }
