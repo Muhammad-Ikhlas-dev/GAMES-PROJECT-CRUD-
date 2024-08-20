@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import axios from 'axios';
 import toast,{Toaster} from 'react-hot-toast';
+import PopModal from '../CommonComponents/PopModal/PopModal';
+import Form from './GameFolder/Form';
 
 const form=(props)=>{
     // const navigate=useNavigate();
@@ -73,46 +75,16 @@ const form=(props)=>{
             {addGameClicked?'Hide':'Add game'}
           </button>
 
-    {/* {Form} */}
 {addGameClicked?(
-    <form className='flex flex-col gap-4 text-black items-center'>
-<input 
-type="text" 
-placeholder="Title" 
-className='pl-2 outline-none'
-value={gameInfo.title}
-onChange={(e)=>{setGameInfo({
-title:e.target.value,
-genre:gameInfo.genre,
-description:gameInfo.description,
-
-})}}/>
-<input type="text" 
-placeholder="Genre" 
-className='pl-2 outline-none'
-value={gameInfo.genre}
-onChange={(e)=>{setGameInfo({
-title:gameInfo.title,
-genre:e.target.value,
-description:gameInfo.description,
-})}}/>
-
-<input 
-placeholder="Description" 
-className='pl-2 outline-none'
-value={gameInfo.description}
-onChange={(e)=>{setGameInfo({
-title:gameInfo.title,
-genre:gameInfo.genre,
-description:e.target.value,
-})}}/>
-
-<button className='bg-transparent border-2 border-white 
-w-28 py-2 text-white hover:bg-green-500' 
-onClick={gameAdder}>
-    Add
-</button>
-</form>):null}
+<PopModal setaddGameClicked={setaddGameClicked} action='Add'>
+    <Form title={props.title} description={props.description} genre={props.genre}
+    setGameInfo={setGameInfo}
+    gameInfo={gameInfo}
+    setaddGameClicked={setaddGameClicked}
+    gameAdder={gameAdder}
+    action='Add'/>
+</PopModal>
+):null}
 <Toaster/>
         </div>
 )

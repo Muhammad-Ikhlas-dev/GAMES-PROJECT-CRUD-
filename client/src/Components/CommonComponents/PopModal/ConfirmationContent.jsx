@@ -1,0 +1,29 @@
+import React from 'react';
+
+const ModalContent=(props)=>{
+    return(
+        <div className="bg-black w-96 h-52 flex justify-center items-center flex-col
+            gap-12 z-50 cursor-auto" onClick={(e)=>{e.stopPropagation()}}>
+        <p>Do you want to Delete
+            <span className='text-red-500 font-bold'> {props.title}</span>
+        </p>
+             <div className='flex gap-12 text-white'>
+                 <button className="bg-green-500 px-4 hover:bg-green-700"
+                 onClick={(e)=>{
+                    e.preventDefault()
+                    e.stopPropagation()
+                    props.delClicked(e) //yes sendrequest for delete
+                    props.srtCrossClicked(false)
+                    }}>Yes</button>
+                 <button className='bg-red-500 px-4 hover:bg-red-700'
+                 onClick={(e)=>{
+                    e.stopPropagation()
+                    e.preventDefault()
+                    props.setCrossClicked(false);
+                    }}>No</button>
+              </div>
+           </div>
+    )
+}
+
+export default ModalContent;
