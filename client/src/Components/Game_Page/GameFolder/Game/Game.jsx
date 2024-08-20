@@ -19,6 +19,7 @@ const game = (props) => {
         updated_description:props.description,
         updated_genre:props.genre
     })
+    const [cardClicked,setCardClicked]=useState(false)
 
     async function deleteGame(event) {
         event.preventDefault();
@@ -133,34 +134,43 @@ const game = (props) => {
     
     return (
         <div className='min-h-72 w-48 px-4 pb-4 pt-2 bg-white text-green-500 text-center 
-        cursor-pointer group flex flex-col items-center overflow-hidden'>
+        cursor-pointer group flex flex-col items-center overflow-hidden'
+        onClick={(e)=>{setCardClicked(true);
+            e.stopPropagation();
+        }}>
 
                                 {/* {DELETE/UPDATE} */}
             <div className='flex justify-between w-full items-center'>
                                      {/* UPDATE */}
                 <UpdateComponent clicked={(event)=>{
                     event.preventDefault()
-                    setUpdateClicked(!updateClicked)
+                    setUpdateClicked(true)
+                    event.stopPropagation()
+                    setCardClicked(false)
                 }}
                     updateClicked={updateClicked}/>
                                      {/* DELETE */}
-                <DeleteComponent setCrossClicked={setCrossClicked}/>
+                <DeleteComponent setCrossClicked={setCrossClicked} 
+                setCardClicked={setCardClicked}/>
             </div>
 
                                          {/* {BG IMAGE OF CARD} */}
             <img className="z-0 object-cover object-center h-[90%] mt-4 cursor-pointer
             group-hover:scale-105 transition-all duration-500 ease-in-out"
                 src={cardBG} alt="unable to load" />
-                
-                                    {/* GAME CARD CONTENT */}
-                <GameContent
-                title={props.title}
-                genre={props.genre}
-                description={props.description} />
 
                 {/* CONTENT WHEN UPDATE CLICKED */}
-
-
+{cardClicked&&
+<PopModal setCardClicked={setCardClicked} action='cardInfoShow'>
+                        {/* GAME CARD CONTENT */}
+ <GameContent
+                title={props.title}
+                genre={props.genre}
+                description={props.description} 
+                setCardClicked={setCardClicked}
+                // clicked={()=>{setCardClicked(false)}}
+                />
+</PopModal>}
 {updateClicked ?
 <PopModal setUpdateClicked={setUpdateClicked} action='update'>
     <Form title={props.title} description={props.description} genre={props.genre}

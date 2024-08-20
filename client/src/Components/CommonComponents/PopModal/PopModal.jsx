@@ -4,12 +4,15 @@ const PopModal=(props)=>{
     return(
         <div id="hider" 
             className="fixed inset-0 z-40 flex justify-center items-center" 
-            onClick={()=>{
-                if(props.action=='delete')
+            onClick={(e)=>{
+                e.stopPropagation()
+                if(props.action==='cardInfoShow')
+                props.setCardClicked(false)
+                else if(props.action==='delete')
                 props.setCrossClicked(false)
-                else if(props.action=='update')
+                else if(props.action==='update')
                 props.setUpdateClicked(false)
-                else //Add
+                else if(props.action==='Add')//Add
                 props.setaddGameClicked(false)}}>  
             {props.children}       {/*Delete Confirmation OR FORM */}
         </div>
