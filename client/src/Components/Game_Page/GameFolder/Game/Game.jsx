@@ -80,10 +80,6 @@ const game = (props) => {
                     updated_description:newGameInfo.updated_description || props.description,
                     updated_genre:newGameInfo.updated_genre || props.genre,
                 }
-                setNewGameInfo({updated_title:props.title,
-                    updated_description:props.description,
-                    updated_genre:props.genre})
-                // props.done_click_handler(event,EmptyPreventerGameInfo)
             let response=await axios.put('http://localhost:8000/game?title_to_update='+props.title,EmptyPreventerGameInfo)
             toast.success(response.data.message,{
                 position: 'top-right',

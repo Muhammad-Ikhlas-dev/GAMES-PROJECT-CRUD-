@@ -13,7 +13,7 @@ const ModalContent=(props)=>{
                     e.preventDefault()
                     e.stopPropagation()
                     props.delClicked(e) //yes sendrequest for delete
-                    props.srtCrossClicked(false)
+                    props.setCrossClicked(false)
                     }}>Yes</button>
                  <button className='bg-red-500 px-4 hover:bg-red-700'
                  onClick={(e)=>{

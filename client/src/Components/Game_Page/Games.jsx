@@ -9,8 +9,6 @@ const gamesDisplayer=(props)=>{
         <Game title={game.title} key={index}
         triggerRefresh={props.triggerRefresh} 
         description={game.description} genre={game.genre}
-        
-        deleteClicked={(event)=>{deleteGame(game.title,event)}} 
         update_click_handler={(event)=>{update_click_handler(event)}}
         />
     ))
