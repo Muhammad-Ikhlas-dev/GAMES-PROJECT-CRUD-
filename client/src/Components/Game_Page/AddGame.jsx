@@ -21,6 +21,11 @@ const form=(props)=>{
                     border: '1px solid green'
                 },
             })
+            setGameInfo({
+                title:'',
+                genre:'',
+                description:''
+            })
             props.triggerRefresh();  //callUseEffect we can say by changing its dependency
 
             /* !!!!!!!!!! wrong approach because it was re-rendering whole page !!!!!!!
