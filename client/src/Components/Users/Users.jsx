@@ -5,6 +5,7 @@ import {head as Head} from './User.jsx';
 
 const border_giver='border-2 border-white';
 const users=(props)=>{
+  {console.log("users re-rendered")}
 const users=props.users.map((user)=>{
   return (
   <User 
@@ -27,4 +28,4 @@ const users=props.users.map((user)=>{
     )
 }
 
-export default users;
+export default users; //so User will also not re-render without change

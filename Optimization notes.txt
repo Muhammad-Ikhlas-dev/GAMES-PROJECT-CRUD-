@@ -1,0 +1,25 @@
+								-: React.memo() :-
+
+"ADD GAME" RELATED OPTIMIZATION:-
+
+==> header,logout and logo(in GamePage) ko is liye React.memo() mein wrap kia kiun kay jab Game add per done krtay thay to yeh bhi re-render ho rae thay just because "gamePage" re-render ho rha tha. 
+
+==> aur "GamePage" is liye re-render ho rha tha bcz hum us kay "triggerRefresh" jo state change kr rha tha(causing re-render) function ko call kr rae thay
+
+==> but "Games" mein is liye nai kia bcz us ka re-render sense bna rha tha because us kay props mein change a rha tha(after one more game added) to agr us ko wrap kr bhi detay to koi farq na prta bcz props kay change pay re-render to React.memo() bhi honay deta hai 
+
+
+								-: useContext :-
+==> using TriggerRefreshContext.jsx bcz we were passing triggerRefresh function as prop to "Games" but there was no use of "triggerRefresh" in Games we just passed it so that we can pass it to "Game" component so to remove this problem i wrapped Games with provider so that now i can directly access "triggerRefresh" in "Game" component without passing it to "Games" componenet
+
+
+
+								-: Code optimizations :-
+==> state ko utha kr directly forms mein daal dia so that on change in any field only that component re-render
+
+==> "game" component aur "addGame" component say functions ko utha kay(like addgame,deleteGame,UpdateGame) gamePage mein daal dia bcz it was our main component
+
+==> aur un functions ko context mein daal dia so that we can use them in out forms like when clicked on "done" btn on form we can call these functions by just fetching them from context.
+
+									-: Note :-
+==> to check and observe all these changes open project "login signup project optimized"

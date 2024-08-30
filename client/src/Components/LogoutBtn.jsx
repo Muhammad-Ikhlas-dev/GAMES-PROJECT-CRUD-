@@ -1,16 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{useContext} from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import AuthContext from '../Contexts/AuthContext';
+import { useAppSelector } from '../Redux/hooks/useReduxHelperHooks';
 
 const btn=()=>{
+    console.log("logout button re-rendered")
+    const {userData}=useAppSelector(state=>state.AuthSlice)
+    const {setUserData}=userData
+    console.log("in logout : ",userData)
+    const navigate=useNavigate()
+    
+    const logoutClicked=(event)=>{
+        event.preventDefault()
+        localStorage.clear()
+        setUserData({
+            ...userData,email:'',
+            username:'',
+            password:'',
+            token:''
+        })
+        navigate('/login')
+    }
+
     return(
         <>
-        <Link to={"/"}>
-            <button className='border-2 border-white font-bold w-20 h-8 font-mono hover:bg-green-900'>
+            <button onClick={logoutClicked}
+            className='border-2 border-white font-bold w-20 h-8 font-mono hover:bg-green-900'>
                   Logout        
             </button>
-            </Link>
         </>
     )
 }
 
-export default btn;
+export default React.memo(btn);

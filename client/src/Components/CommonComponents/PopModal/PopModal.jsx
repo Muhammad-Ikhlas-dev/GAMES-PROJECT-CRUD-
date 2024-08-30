@@ -1,6 +1,7 @@
 import React from 'react';
 
-const PopModal=(props)=>{
+const PopModal=React.memo((props)=>{
+    console.log("pop modal re-rendered")
     return(
         <div id="hider" 
             className="fixed inset-0 z-40 flex justify-center items-center" 
@@ -17,6 +18,6 @@ const PopModal=(props)=>{
             {props.children}       {/*Delete Confirmation OR FORM */}
         </div>
     )
-}
+})
 
-export default PopModal;
+export default React.memo(PopModal);

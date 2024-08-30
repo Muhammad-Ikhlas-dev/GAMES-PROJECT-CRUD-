@@ -73,7 +73,7 @@ if(!bcrypt.compareSync(password,user.password)){ //hash of that password found i
 
     const token=jwt.sign(
         {
-          _id:user._id
+          _id:user._id,
         },
         process.env.JWT_SECRET_KEY,
         {expiresIn:"15d"}
@@ -83,6 +83,8 @@ if(!bcrypt.compareSync(password,user.password)){ //hash of that password found i
         message:"successfully logged",
         token,
         username:user.username,
+        password:user.password,
+        email:user.email,
         success:true
     })
 }

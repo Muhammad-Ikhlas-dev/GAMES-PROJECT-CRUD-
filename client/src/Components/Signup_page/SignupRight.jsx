@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const SignupRight = () => {
+    console.log("signupRight re-rendered")
     const [auth_obj, set_auth_obj] = useState({ email: '', password: '',username:'' })
     const [submitClicked,setSubmitClicked]=useState(false)
     const input_styling = "w-80 h-8 px-2 outline-none text-white bg-transparent border-b-2 border-white placeholder-pink-500"
 
     const navigate = useNavigate();
+
     async function requestSender(event) {
         event.preventDefault();
         setSubmitClicked(true)
@@ -34,6 +36,7 @@ const SignupRight = () => {
                     border: '1px solid green'
                 },
             })
+            //empty local storage if signed up successfully
             
             setTimeout(()=>{
                 navigate('/login')

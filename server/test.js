@@ -81,3 +81,6 @@ const token=jwt.login(
 const decoded=jwt.verify(token,"IKHLAS");
 console.log(decoded)
 console.log(token)
+
+//context will contain two states one for token is inside localStorage? and one for token is
+//expired or not? then according to these states we will 

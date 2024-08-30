@@ -2,6 +2,7 @@ import React from 'react';
 import HOT from '../../assets/login_left_img.png';
 
 const SignupLeft=()=>{
+    console.log("signup left re-rendered")
 return(
     <>
     <div className='w-72'>

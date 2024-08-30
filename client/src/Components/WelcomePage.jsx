@@ -1,17 +1,28 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import Logo from './logo';
 import welcomeImage from '../assets/welcome_img.png';
 import Header from './Header';
 import LogoutBtn from './LogoutBtn.jsx';
 import Profile from './Profile.jsx';
-import {useLocation} from 'react-router-dom';
+import {useLocation,useNavigate} from 'react-router-dom';
+import { useAppSelector } from '../Redux/hooks/useReduxHelperHooks.js';
+// import useFindToken from '../CustomHooks/useFindToken.js';
+// import AuthContext from '../Contexts/AuthContext.jsx';
 
 const welcomePage=()=>{
-    const [username,setUsername]=useState('')
-    const location=useLocation();
+    const navigate=useNavigate();
+    
+    // useFindToken();
+    const {username,token}=useAppSelector(state=>state.AuthSlice)
+    console.log("in welcome page",username,token)
+    // const location=useLocation();
+    // const userNameRecieved=location.state;
     useEffect(()=>{
-     const userNameRecieved=location.state;
-     setUsername(userNameRecieved)
+        console.log("token in WelcomePage: ",token)
+        console.log("username in WelcomePage: ",username)
+        if(!token){
+                navigate('/login')
+        }
     },[])
     return(
         <div className='h-[100%] bg-[#40670C] overflow-hidden'>
@@ -28,7 +39,7 @@ const welcomePage=()=>{
             </div>
                                         {/* {BODY} */}
             </div>
-            <div className="flex justify-center items-center gap-32 mt-[5%] pl-12">
+            <div className="flex justify-center items-center gap-32 pl-12 mt-[5%]">
                                         {/*BODY LEFT*/}
                 <div>
                 <h1 className="text-6xl font-bold font-mono text-center">
@@ -43,7 +54,7 @@ const welcomePage=()=>{
                 </p>
                 </div>
                                             {/*BODY RIGHT*/}
-                <div className="w-full">
+                <div className="w-full h-fit">
                 <img className="w-full scale-125 object-cover object-center" 
                 src={welcomeImage} 
                 alt="unable to load" />

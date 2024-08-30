@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 const header=()=>{
+    console.log("header re-rendered")
     let list_style="cursor-pointer transition-transform duration-200 hover:scale-125";
 return(
 <nav className='bg-white min-w-96 p-4 rounded-3xl mt-4'>
@@ -16,4 +17,4 @@ return(
 )
 }
 
-export default header;
+export default React.memo(header);

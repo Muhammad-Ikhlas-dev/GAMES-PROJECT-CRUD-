@@ -1,17 +1,27 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import Users from './Users.jsx';
 import Logo from '../logo.jsx';
 import Header from '../Header.jsx';
 import LogoutBtn from '../LogoutBtn.jsx';
 import axios from 'axios';
 import toast,{Toaster} from 'react-hot-toast';
-
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../Redux/hooks/useReduxHelperHooks.js';
 
 const UsersPage=()=>{
+    console.log("whole users page re-rendered")
+    const navigate=useNavigate()
     const [users,setUsers]=useState([])
+    const {token}=useAppSelector(state=>state.AuthSlice);
+    
     useEffect(()=>{
-        axios.get('http://localhost:8000/users')
-        .then((response)=>{
+        console.log("token in usersPage: ",token)
+        if(token){
+        axios.get('http://localhost:8000/users',{headers:
+            {
+                token,
+            }
+        }).then((response)=>{
             setUsers(response.data.usersRecord)
             toast.success(response.data.message,{
                 position: 'top-right',
@@ -20,9 +30,10 @@ const UsersPage=()=>{
                     border: '1px solid green'
                 },
             })
-            // console.log(users)
         })
         .catch((error)=>{
+            if(error.response.status==498)
+            navigate('/login')
             if(error?.response?.data?.message){ //error response from manual validations
                 // console.log(error)
                 toast.error(error.response.data.message)
@@ -45,6 +56,10 @@ const UsersPage=()=>{
                 }
             } 
         })
+    }
+    else{
+          navigate('/login')
+    }
     },[])
 
     return(
