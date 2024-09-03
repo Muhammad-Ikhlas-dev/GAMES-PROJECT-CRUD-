@@ -8,7 +8,7 @@ import useFindToken from './CustomHooks/useFindToken.js';
 import store from './Redux/store/store.js';
 import { Provider } from 'react-redux';
 import {authInfoSetter} from './Redux/slice/AuthSlice.js';
-import { useAppDispatch,useAppSelector } from './Redux/hooks/useReduxHelperHooks.js';
+import { useAppDispatch} from './Redux/hooks/useReduxHelperHooks.js';
 // import HomePage from './Components/Home_Page/Home_Page';
 // import LoginPage from './Components/Login_Page/LoginPage.jsx';
 // import SignupPage from './Components/Signup_page/SignupPage.jsx';

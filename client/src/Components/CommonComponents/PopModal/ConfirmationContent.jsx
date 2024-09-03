@@ -2,8 +2,8 @@ import React,{useContext} from 'react';
 import MethodContext from '../../../Contexts/MethodContext';
 
 const ModalContent=(props)=>{
-    console.log("confirmation box re-endered")
     const {deleteGame}=useContext(MethodContext)
+    console.log("confirmation box re-endered")
     return(
         <div className="bg-black w-96 h-52 flex justify-center items-center flex-col
             gap-12 z-50 cursor-auto" onClick={(e)=>{e.stopPropagation()}}>
