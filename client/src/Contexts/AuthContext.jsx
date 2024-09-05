@@ -1,10 +1,10 @@
-// import { createContext } from "react";
+import { createContext } from "react";
 
-// const authContext=createContext({
-// username:'',
-// email:'',
-// password:'',
-// token:''
-// })
+const authContext=createContext({
+username:'',
+email:'',
+password:'',
+token:'',
+})
 
-// export default authContext;
+export default authContext;

@@ -12,235 +12,142 @@ import MethodContext from '../../Contexts/MethodContext.jsx';
 import { Provider } from 'react-redux';
 import { useAppSelector,useAppDispatch } from '../../Redux/hooks/useReduxHelperHooks.js';
 import store from '../../Redux/store/store.js';
-import { deleteGame as DeleteGame,addGame as ADDGame,updateGame as UPDATEgame } from '../../Redux/slice/CrudSlice.js';
+import { deleteGame as DeleteGame,addGame as ADDGame,updateGame as UPDATEgame,getGames as GETgames} from '../../Redux/slice/CrudSlice.js';
 
 const gamePage = () => {
   console.log("game page re-rendered")
-  const [games, setGames] = useState([])
   const navigate=useNavigate();
   const {token}=useAppSelector(state=>state.AuthSlice);
-  // const {isDeleteResponse,isDeleteError,isAddResponse,isAddError}=useAppSelector(state=>state.CrudSlice);
-  
-  //we will want to run this useEffect whenever we want to get cards of games like 
-  //after every post request or delete request or update request and on first render 
-  //ofcourse
-  //GET GAMES
+  const {isDeleteResponse,isDeleteError,isDeleteLoading,
+    isAddResponse,isAddError,isAddLoading,
+    isUpdateResponse,isUpdateError,isUpdateLoading,
+    isGetResponse,isGetError,isGetLoading}=useAppSelector(state=>state.CrudSlice);
+    const dispatch=useAppDispatch();
+
+    /*we will want to run this useEffect whenever we want to get cards of games like 
+    after every post request or delete request or update request and on first render 
+    ofcourse*/
+                                        //GET GAMES
   useEffect(()=>{
-    getGames()
-  },[])
-  
-  function getGames(){
-    console.log("token in game page: ",token);
-    if(token){
-      axios.get('http://localhost:8000/games',{headers:
-        {
-          token:token,
-        }
-      }).then((response) => {
-        console.log("games fetched:", response.data.games)
-        setGames(response?.data?.games)
-      }).catch((error) => {
-        console.log(error)
-      })
-    }
-    else{
+    console.log("122 isGetError ",token)
+    if(!token){
       navigate('/login')
     }
-  }
-  
-  const dispatch=useAppDispatch();
-                                          //GAME ADDER
-  async function addGame(event,gameInfo,setGameInfo){
-    try{
-      // console.log("response in addfunction",isAddResponse)
-      event.preventDefault();
-      const resultAction = await dispatch(ADDGame({ token, gameInfo })).unwrap();
-      console.log("Response in add function", resultAction);
+    // if(!isGetLoading && !isDeleteLoading && !isUpdateLoading && !isAddLoading && !isGetError && !isUpdateError &&
+    //   !isAddError && !isDeleteError){
+      dispatch(GETgames({token}))
+    // }
+  },[])
 
-      toast.success(resultAction.data.message,{
+                                            //GAME ADDER
+useEffect(()=>{
+if(isAddResponse){
+  toast.success(isAddResponse,{
+    position: 'top-right',
+    style: {
+      height: "60px",
+      border: '1px solid green'
+    },
+  })
+}
+else if(isAddError){
+  toast.error(isAddError)
+  , {
+    position: 'top-right',
+    style: {
+      height: "60px",
+      border: '1px solid green'
+    },
+  }
+}
+},[isAddError,isAddResponse])
+  async function addGame(gameInfo,setGameInfo){
+    if(!token){
+      navigate('/login')
+    }
+      await dispatch(ADDGame({ token, gameInfo })).unwrap(); //good approach
+      dispatch(GETgames({ token }));
+      
+      setGameInfo({
+        title: '',
+        genre: '',
+        description: ''
+      });
+  }
+                                          //GAME DELETE
+  useEffect(()=>{
+    if(isDeleteResponse){
+      toast.success(isDeleteResponse, {
+             position: 'top-right',
+             style: {
+               height: "60px",
+               border: '1px solid green'
+             },
+           })
+    }
+    else if(isDeleteError){
+      toast.error(isDeleteError)
+      , {
         position: 'top-right',
         style: {
           height: "60px",
           border: '1px solid green'
         },
-      })
-      setGameInfo({
-        title:'',
-        genre:'',
-        description:''
-      })
-      console.log("yahan tak aya hai")
-      getGames(); 
-        }
-        catch(error){
-          console.log("error",error)
-          console.log("not succeccful")
-          if(error?.response?.status==498)
-                navigate('/login')
-              if (error?.response?.data?.issue) { //error response came from zod
-                toast.error(error.response.data.issue[0].message + ' at ' + error.response.data.issue[0].path)
-                , {
-                  position: 'top-right',
-                  style: {
-                    height: "60px",
-                    border: '1px solid green'
-                  },
-                }
-              }
-              else if(error?.response?.data?.message){ //error response from manual validations
-                // console.log(error)
-                toast.error(error.response.data.message)
-                , {
-                  position: 'top-right',
-                  style: {
-                    height: "60px",
-                    border: '1px solid green'
-                  },
-                }
-              }
-            else{ //axios related error
-              toast.error(error.message)
-              , {
-                position: 'top-right',
-                style: {
-                  height: "60px",
-                  border: '1px solid green'
-                },
-              }
-            }
-        }
       }
-      
-                                    //DELETE FUNCTION
+    }
+  },[isDeleteError,isDeleteResponse])
+ async function deleteGame(title) {
+   if(!token){
+     navigate('/login')
+   }
+   dispatch(DeleteGame({title,token}))
+   dispatch(GETgames({token}))
+      }
 
- async function deleteGame(event,title) {
-  try{
-    event.preventDefault()
-    const resultAction=await dispatch(DeleteGame({title,token})).unwrap();
-    console.log("delete function",resultAction)
-    // console.log("response in gamepage",isDeleteResponse)
-    // console.log("error in deletePage",isDeleteError)
-    
-    // if(isDeleteResponse){
-      toast.success(resultAction.data.message, {
-        position: 'top-right',
-        style: {
-              height: "60px",
-              border: '1px solid green'
-            },
-          })
-          getGames(); //change state calluseEffect oR we can say 
-          //run useEffect indirectly 
-        // }
-        // else if(isDeleteError){//error
- }
-        catch(error){
-          // console.log("error came!!!",isDeleteError)
-  
-          if(error?.response?.status==498)
-            navigate('/login')
-  
-          if (error?.response?.data?.issue) { //error response came from zod
-            console.log(error.response.data.issue)
-            toast.error(error.response.data.issue[0].message + ' at ' + error.response.data.issue[0].path)
-              , {
-              position: 'top-right',
-              style: {
-                height: "60px",
-                border: '1px solid green'
-              },
-            }
-          }
-          else if (error?.response?.data?.message) { //error response from manual validations
-            // console.log(error)
-            toast.error(error.response.data.message)
-              , {
-              position: 'top-right',
-              style: {
-                height: "60px",
-                border: '1px solid green'
-              },
-            }
-          }
-          else { //axios related error
-            console.log("chala")
-            toast.error(error.message)
-              , {
-              position: 'top-right',
-              style: {
-                height: "60px",
-                border: '1px solid green'
-              },
-            }
-          }
-        }
-}
-
-                                    //UPDATE FUNCTION
-
-async function updateGame(event,newGameInfo,oldTitle,oldDescription,oldGenre){
-        try{
-            event.preventDefault();
+                                              //GAME UPDATE
+useEffect(()=>{
+  console.log("444 isUpdateResponse: ",isUpdateResponse)
+  console.log("444 isUpdateError: ",isUpdateError)
+  if(isUpdateResponse){
+    toast.success(isUpdateResponse,{
+      position: 'top-right',
+      style: {
+          height: "60px",
+          border: '1px solid green'
+      },
+  }) 
+  }
+  else if(isUpdateError){
+    toast.error(isUpdateError)
+    , {
+      position: 'top-right',
+      style: {
+        height: "60px",
+        border: '1px solid green'
+      },
+    }
+  }
+},[isUpdateError,isUpdateResponse])
+async function updateGame(newGameInfo,oldTitle,oldDescription,oldGenre){
+                if(!token){
+                  navigate('/login')
+                }
                 let EmptyPreventerGameInfo={
                     updated_title: newGameInfo.updated_title || oldTitle,
                     updated_description:newGameInfo.updated_description || oldDescription,
                     updated_genre:newGameInfo.updated_genre || oldGenre,
                 }
-            const resultAction=await dispatch(UPDATEgame({token,oldTitle,EmptyPreventerGameInfo})).unwrap()
-            toast.success(resultAction.data.message,{
-                position: 'top-right',
-                style: {
-                    height: "60px",
-                    border: '1px solid green'
-                },
-            })            
-              getGames();
-            }
-        catch(error){
-          if(error?.response?.status==498){
-            navigate('/login')
-          }
-            console.log(error)
-            if (error?.response?.data?.issue) { //error response came from zod
-                console.log(error.response.data.issue)
-                toast.error(error.response.data.issue[0].message + ' at ' + error.response.data.issue[0].path)
-                    , {
-                    position: 'top-right',
-                    style: {
-                        height: "60px",
-                        border: '1px solid green'
-                    },
-                }
-            }
-            else if(error?.response?.data?.message){ //error response from manual validations
-                // console.log(error)
-                toast.error(error.response.data.message)
-                    , {
-                    position: 'top-right',
-                    style: {
-                        height: "60px",
-                        border: '1px solid green'
-                    },
-                }
-            }
-            else{ //axios related error or error in above try block
-                toast.error(error.message)
-                    , {
-                    position: 'top-right',
-                    style: {
-                        height: "60px",
-                        border: '1px solid green'
-                    },
-                }
-            }
-        }
-      }
+            dispatch(UPDATEgame({token,oldTitle,EmptyPreventerGameInfo}))
+            setTimeout(()=>{ //bad approach instead use unwrap to handle dispatch like promise or async action
+              dispatch(GETgames({token}));      
+            },500)
+    }
       
 
 
   return (
     <div className='min-h-[100%] bg-[#40670C]
-        flex flex-col items-center gap-8 pb-12'>
+        flex flex-col items-center gap-8 pb-12 px-4'>
       {/* Top Display */}
       <div className="flex justify-between px-[2px] items-center w-full">
         <Logo />
@@ -252,7 +159,7 @@ async function updateGame(event,newGameInfo,oldTitle,oldDescription,oldGenre){
       {/* AddGame */}
       <AddGame />
       {/* GAMES */}
-      <Games games={games}/>
+      {isGetResponse && isGetResponse.length>0 && <Games games={isGetResponse}/>}
       </Provider>
       </MethodContext.Provider>
       <Toaster/>

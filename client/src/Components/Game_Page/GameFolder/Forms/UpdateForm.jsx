@@ -56,7 +56,7 @@ const updateForm=(props)=>{
             <button className='bg-green-600 p-2 text-white hover:bg-green-700'       
             onClick={(e)=>{
                 e.preventDefault()
-                updateGame(e,newGameInfo,props.title,props.description,props.genre)
+                updateGame(newGameInfo,props.title,props.description,props.genre)
                 props.setUpdateClicked(false)}}>
                 Done
             </button>

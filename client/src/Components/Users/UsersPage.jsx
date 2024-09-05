@@ -32,6 +32,7 @@ const UsersPage=()=>{
             })
         })
         .catch((error)=>{
+            toast.remove()
             if(error.response.status==498)
             navigate('/login')
             if(error?.response?.data?.message){ //error response from manual validations

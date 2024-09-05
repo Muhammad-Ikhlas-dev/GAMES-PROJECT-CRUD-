@@ -4,10 +4,8 @@ import welcomeImage from '../assets/welcome_img.png';
 import Header from './Header';
 import LogoutBtn from './LogoutBtn.jsx';
 import Profile from './Profile.jsx';
-import {useLocation,useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useAppSelector } from '../Redux/hooks/useReduxHelperHooks.js';
-// import useFindToken from '../CustomHooks/useFindToken.js';
-// import AuthContext from '../Contexts/AuthContext.jsx';
 
 const welcomePage=()=>{
     const navigate=useNavigate();
@@ -15,8 +13,6 @@ const welcomePage=()=>{
     // useFindToken();
     const {username,token}=useAppSelector(state=>state.AuthSlice)
     console.log("in welcome page",username,token)
-    // const location=useLocation();
-    // const userNameRecieved=location.state;
     useEffect(()=>{
         console.log("token in WelcomePage: ",token)
         console.log("username in WelcomePage: ",username)

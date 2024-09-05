@@ -5,7 +5,7 @@ import { useAppSelector } from '../Redux/hooks/useReduxHelperHooks';
 const btn=()=>{
     console.log("logout button re-rendered")
     const {userData}=useAppSelector(state=>state.AuthSlice)
-    const {setUserData}=userData
+    const {setUserData}=userData;
     console.log("in logout : ",userData)
     const navigate=useNavigate()
     

@@ -3,7 +3,6 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate} from 'react-router-dom';
 import { useAppSelector } from '../../Redux/hooks/useReduxHelperHooks';
-// import AuthContext from '../../Contexts/AuthContext';
 
 const loginRight = () => {
     console.log("login right re-rendered")

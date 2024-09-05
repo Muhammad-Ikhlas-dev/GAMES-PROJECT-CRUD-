@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const authSlice=createSlice({
     initialState:{username:'',password:'',token:'',email:'',userData:null,setUserData:null},
+        // setUserData:null},
     name:'authenticationInfo',
     reducers:{
         authInfoSetter:(state,action)=>{

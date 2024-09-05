@@ -52,14 +52,14 @@ const addForm=(props)=>{
             setGameInfo(UpdatedGameInfo);
         }}
         />
-                                {/*Done*/}
+                                                {/*Done*/}
               <div className='flex gap-4 '>
             <button className='bg-green-600 p-2 text-white hover:bg-green-700'       
             onClick={(e)=>{
                 e.preventDefault()
                 
                 props.setaddGameClicked(false)
-                addGame(e,
+                addGame(
                 gameInfo,
                 setGameInfo)}}>
                 Done
